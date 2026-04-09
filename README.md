@@ -93,12 +93,3 @@ http://localhost:3000/location
 
 ---
 
-## 🔮 Possíveis melhorias
-
-* Integração com APIs reais de transporte
-* Múltiplos ônibus simultâneos
-* Atualização em tempo real via WebSocket
-* Sistema de notificações
-* Versão mobile (React Native)
-
----

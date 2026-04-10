@@ -1,20 +1,67 @@
+/* =============================================
+   MOBILIZA PARAÍSO — Design System
+   ============================================= */
+
+/* --- Google Fonts já importada no index.html --- */
+
 :root {
-  --font-xs: 12px;
-  --font-sm: 14px;
-  --font-md: 16px;
-  --font-lg: 18px;
-  --font-xl: 24px;
-  --font-xxl: 32px;
-  --primary-green: #2DBA67;
-  --bg-dark: #121318;
-  --card-bg: #2F3238;
+  /* Tipografia */
+  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-xs:   11px;
+  --font-sm:   13px;
+  --font-md:   15px;
+  --font-lg:   17px;
+  --font-xl:   22px;
+  --font-xxl:  30px;
+
+  /* Pesos */
+  --weight-regular:  400;
+  --weight-medium:   500;
+  --weight-semibold: 600;
+  --weight-bold:     700;
+
+  /* Cores principais */
+  --primary:       #2DBA67;
+  --primary-dark:  #239952;
+  --primary-glow:  rgba(45, 186, 103, 0.18);
+
+  /* Backgrounds */
+  --bg-app:    #111217;
+  --bg-card:   #1C1E25;
+  --bg-card-2: #23252D;
+  --bg-list:   #1A1C22;
+
+  /* Bordas */
+  --border-subtle: rgba(255, 255, 255, 0.07);
+  --border-card:   rgba(255, 255, 255, 0.05);
+
+  /* Texto */
+  --text-primary:   #F0F2F5;
+  --text-secondary: rgba(240, 242, 245, 0.55);
+  --text-muted:     rgba(240, 242, 245, 0.35);
+
+  /* Raios */
+  --radius-sm:  8px;
+  --radius-md:  12px;
+  --radius-lg:  16px;
+  --radius-xl:  20px;
+  --radius-full: 999px;
+
+  /* Sombras */
+  --shadow-card: 0 2px 12px rgba(0, 0, 0, 0.3);
+  --shadow-glow: 0 0 24px rgba(45, 186, 103, 0.25);
 }
 
-* {
+/* =============================================
+   RESET & BASE
+   ============================================= */
+*,
+*::before,
+*::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Inter', sans-serif;
+  -webkit-tap-highlight-color: transparent;
 }
 
 html,
@@ -22,27 +69,33 @@ body {
   width: 100%;
   height: 100%;
   overflow-x: hidden;
-  background: var(--bg-dark);
-  color: #fff;
+  background: #0D0E12;
+  color: var(--text-primary);
+  font-family: var(--font-family);
   font-size: var(--font-md);
-  line-height: 1.5;
+  font-weight: var(--weight-regular);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
+/* =============================================
+   LAYOUT — TELAS (SCREENS)
+   ============================================= */
 .screen {
   width: 100%;
   max-width: 430px;
-  height: 100vh;
+  height: 100dvh; /* dynamic viewport height para mobile */
   margin: 0 auto;
   overflow: hidden;
-  background: #121318;
+  background: var(--bg-app);
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   opacity: 0;
   transform: translateX(100%);
-  transition: 0.5s ease-in-out;
-  box-shadow: 0 0 20px rgba(0,0,0,0.5);
+  transition: opacity 0.45s ease, transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .active {
@@ -51,163 +104,428 @@ body {
   position: relative;
 }
 
+/* =============================================
+   TELA INICIAL (SPLASH)
+   ============================================= */
+/* =============================================
+   TELA INICIAL — SPLASH REDESENHADO
+   ============================================= */
 .start {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  background: var(--bg-app);
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% 0%, rgba(45,186,103,0.08) 0%, transparent 70%);
 }
 
 .center {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   text-align: center;
+  gap: 20px;
+  padding: 32px 28px;
+  width: 100%;
+}
+
+/* Anel de pulsação ao redor do ícone */
+.bus-icon {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  background: var(--primary-glow);
+  border-radius: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(45, 186, 103, 0.35);
+  box-shadow: 0 0 0 0 rgba(45, 186, 103, 0.3);
+  animation: icon-breathe 3s ease-in-out infinite;
+}
+
+@keyframes icon-breathe {
+  0%, 100% { box-shadow: 0 0 0 0   rgba(45, 186, 103, 0.3); }
+  50%       { box-shadow: 0 0 0 12px rgba(45, 186, 103, 0);   }
+}
+
+.bus-icon img {
+  width: 42px;
 }
 
 .center h1 {
   font-size: var(--font-xxl);
-  font-weight: 700;
+  font-weight: var(--weight-bold);
+  letter-spacing: -0.5px;
+  line-height: 1.2;
+  color: var(--text-primary);
+  margin-top: 4px;
 }
 
-.bus-icon img {
-  width: 60px;
+/* Subtítulo exclusivo da splash */
+.splash-sub {
+  font-size: var(--font-sm);
+  font-weight: var(--weight-medium);
+  color: var(--text-secondary);
+  letter-spacing: 0.2px;
+  line-height: 1.5;
 }
 
-.enter {
-  margin-top: 20px;
-  width: 70px;
-  height: 70px;
+/* Chip de status ao vivo */
+.splash-live {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--font-xs);
+  font-weight: var(--weight-semibold);
+  font-family: var(--font-family);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--primary);
+  background: var(--primary-glow);
+  border: 1px solid rgba(45, 186, 103, 0.25);
+  border-radius: var(--radius-full);
+  padding: 5px 12px;
+}
+
+.splash-live .dot {
+  width: 6px;
+  height: 6px;
+  background: var(--primary);
   border-radius: 50%;
+  animation: pulse-dot 1.8s ease-in-out infinite;
+}
+
+/* ---- Bloco do botão CTA ---- */
+.splash-cta {
+  padding: 24px 20px calc(env(safe-area-inset-bottom, 0px) + 28px);
+  border-top: 1px solid var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Botão principal largo */
+.enter {
+  position: relative;
+  width: 100%;
+  max-width: 280px;
+  min-height: 54px;
   border: none;
-  background: #2DBA67;
-  font-size: 28px;
+  border-radius: var(--radius-lg);
+  background: var(--primary);
+  color: #fff;
+  font-family: var(--font-family);
+  font-size: var(--font-md);
+  font-weight: var(--weight-semibold);
+  letter-spacing: -0.1px;
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 10px;
   cursor: pointer;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
 }
 
+/* Efeito de brilho (shimmer) passando */
+.enter::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    105deg,
+    transparent 40%,
+    rgba(255,255,255,0.18) 50%,
+    transparent 60%
+  );
+  background-size: 200% 100%;
+  background-position: -100% 0;
+  animation: shimmer 3.5s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0%        { background-position: -100% 0; }
+  40%, 100% { background-position:  200% 0; }
+}
+
+.enter-icon {
+  width: 20px;
+  height: 20px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  flex-shrink: 0;
+  transition: transform 0.25s;
+}
+
+.enter:hover {
+  background: var(--primary-dark);
+  box-shadow: 0 3px 14px rgba(0, 0, 0, 0.35);
+}
+
+.enter:hover .enter-icon {
+  transform: translateX(3px);
+}
+
+.enter:active {
+  transform: scale(0.98);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+.splash-note {
+  text-align: center;
+  font-size: var(--font-xs);
+  font-weight: var(--weight-medium);
+  color: var(--text-muted);
+  letter-spacing: 0.2px;
+}
+
+/* =============================================
+   HEADER
+   ============================================= */
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px;
+  padding: 18px 16px 14px;
+  border-bottom: 1px solid var(--border-subtle);
 }
 
 .header > div {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-weight: 600;
+  gap: 10px;
+  font-size: var(--font-md);
+  font-weight: var(--weight-semibold);
+  color: var(--text-primary);
+  letter-spacing: -0.1px;
 }
 
 .header-icon {
-  width: 20px;
+  width: 22px;
+  opacity: 0.9;
 }
 
+/* =============================================
+   STATUS BADGE
+   ============================================= */
 .status {
   font-size: var(--font-xs);
-  padding: 5px 10px;
-  border-radius: 6px;
-  font-weight: 600;
-  display: flex;
+  font-weight: var(--weight-semibold);
+  font-family: var(--font-family);
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  padding: 5px 11px;
+  border-radius: var(--radius-full);
+  display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
 }
 
 .dot {
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
   background: currentColor;
+  flex-shrink: 0;
+  animation: pulse-dot 2s infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.4; }
 }
 
 .online {
-  background: rgba(45,186,103,0.15);
-  color: #2DBA67;
+  background: var(--primary-glow);
+  color: var(--primary);
+  border: 1px solid rgba(45, 186, 103, 0.25);
 }
 
+/* =============================================
+   BUS STATUS BAR
+   ============================================= */
 .bus-status {
-  background: var(--primary-green);
-  color: var(--bg-dark);
+  background: var(--primary);
+  color: #fff;
   text-align: center;
-  padding: 10px;
-  margin: 0 15px;
-  border-radius: 10px;
-  font-weight: 700;
+  padding: 11px 16px;
+  margin: 12px 16px;
+  border-radius: var(--radius-md);
+  font-size: var(--font-sm);
+  font-weight: var(--weight-bold);
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
 }
 
+/* =============================================
+   MAPA (IFRAME)
+   ============================================= */
 #map {
   display: block;
-  width: calc(100% - 30px);
-  margin: 15px;
-  height: 350px;
-  border-radius: 15px;
+  width: calc(100% - 32px);
+  margin: 0 16px 12px;
+  height: 300px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-card);
+  background: var(--bg-card);
 }
 
+/* =============================================
+   INFO CARDS
+   ============================================= */
 .info-cards {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
-  padding: 15px;
+  padding: 0 16px 12px;
 }
 
 .card {
-  background: var(--card-bg);
-  padding: 16px;
-  border-radius: 12px;
+  background: var(--bg-card);
+  padding: 14px 16px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-card);
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
 .card p {
   font-size: var(--font-xs);
-  opacity: 0.5;
+  font-weight: var(--weight-medium);
+  color: var(--text-secondary);
   text-transform: uppercase;
+  letter-spacing: 0.6px;
+  line-height: 1.3;
 }
 
 .card h3 {
   font-size: var(--font-lg);
-  font-weight: 700;
+  font-weight: var(--weight-bold);
+  color: var(--text-primary);
+  letter-spacing: -0.2px;
+  line-height: 1.2;
 }
 
+/* =============================================
+   COR DE DESTAQUE
+   ============================================= */
 .green {
-  color: #2DBA67;
+  color: var(--primary);
 }
 
+/* =============================================
+   LISTA DE PONTOS
+   ============================================= */
 .list {
-  margin: 15px;
+  margin: 0 16px 24px;
 }
 
 .toggle-btn {
   width: 100%;
-  padding: 14px;
+  padding: 15px 20px;
   border: none;
-  border-radius: 12px;
-  background: var(--primary-green);
-  color: var(--bg-dark);
-  font-weight: 700;
+  border-radius: var(--radius-md);
+  background: var(--primary);
+  color: #fff;
+  font-family: var(--font-family);
+  font-size: var(--font-md);
+  font-weight: var(--weight-semibold);
+  letter-spacing: -0.1px;
   cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+  min-height: 52px; /* acessibilidade: área de toque mínima */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 24px;
+  gap: 12px;
+}
+
+.toggle-icon {
+  font-size: 10px;
+  opacity: 0.8;
+}
+
+.toggle-btn:hover {
+  background: var(--primary-dark);
+}
+
+.toggle-btn:active {
+  transform: scale(0.98);
 }
 
 .list ul {
   list-style: none;
-  display: none;
-  margin-top: 10px;
-  background: #2D2E33;
-  border-radius: 12px;
-  padding: 10px;
+  max-height: 0;
+  overflow: hidden;
+  margin-top: 0;
+  background: var(--bg-list);
+  border-radius: 0 0 var(--radius-md) var(--radius-md);
+  transition: max-height 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              margin-top 0.35s ease;
+}
+
+.toggle-btn {
+  border-radius: var(--radius-md);
+  transition: border-radius 0.35s ease, background 0.2s, transform 0.15s;
 }
 
 .list ul.show {
-  display: block;
+  max-height: 280px;
+  margin-top: 2px;
+}
+
+.list ul.show ~ .toggle-btn,
+.toggle-btn.open {
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
 }
 
 .list li {
   display: flex;
   justify-content: space-between;
-  padding: 12px 0;
-  border-bottom: 1px solid rgba(255,255,255,0.1);
+  align-items: center;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border-subtle);
+  font-size: var(--font-md);
+  font-weight: var(--weight-regular);
+  color: var(--text-primary);
+  transition: background 0.15s;
+}
+
+.list li:hover {
+  background: rgba(255, 255, 255, 0.03);
 }
 
 .list li:last-child {
   border-bottom: none;
+}
+
+.list li span:last-child {
+  font-size: var(--font-sm);
+  font-weight: var(--weight-medium);
+  color: var(--primary);
+}
+
+/* =============================================
+   TELA PRINCIPAL — SCROLL
+   ============================================= */
+.app {
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.app::-webkit-scrollbar {
+  display: none;
 }

@@ -113,3 +113,23 @@ npx cap open ios
 * `android/` e `ios/` - Pastas gerenciadas pelo Capacitor contendo a infraestrutura nativa do aplicativo.
 
 ---
+
+## 📈 Próximos Passos & Escalabilidade
+
+Para levar este projeto para um ambiente de produção em larga escala, as seguintes melhorias são recomendadas:
+
+1. **Backend de Intermediação (Proxy):** 
+   - Retirar a lógica de Login e as senhas do ThingsBoard do frontend.
+   - Criar uma API intermediária para gerenciar a autenticação e fornecer apenas os dados necessários aos clientes, protegendo as credenciais.
+
+2. **Sistema de Cache de Rotas (Google Maps):**
+   - Implementar um cache (Redis ou similar) para armazenar rotas calculadas recentemente entre pontos fixos. Isso reduz o custo com a Google Maps Directions API drasticamente.
+
+3. **Substituição de Polling por WebSockets:**
+   - Em vez de fazer requisições a cada 10 segundos (polling), utilizar WebSockets (MQTT ou gRPC) para receber atualizações de posição instantâneas apenas quando o ônibus se mover.
+
+4. **Gestão de Estado Global:**
+   - Migrar a gestão de dados para Redux Toolkit ou TanStack Query para melhor cache local, estados de loading mais granulares e sincronização entre abas.
+
+5. **Analytics & Monitoramento:**
+   - Integração com Firebase Analytics para entender o fluxo dos usuários e Sentry para monitoramento de erros em tempo real nos dispositivos móveis.

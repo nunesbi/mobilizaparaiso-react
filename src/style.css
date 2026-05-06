@@ -6,19 +6,20 @@
 
 :root {
   /* Tipografia */
-  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --font-xs: 11px;
   --font-sm: 13px;
   --font-md: 15px;
   --font-lg: 17px;
   --font-xl: 22px;
-  --font-xxl: 30px;
+  --font-xxl: 28px;
 
-  /* Pesos */
+  /* Pesos — Open Sans: 300 light, 400 regular, 600 semibold, 700 bold, 800 extrabold */
+  --weight-light: 300;
   --weight-regular: 400;
-  --weight-medium: 500;
   --weight-semibold: 600;
   --weight-bold: 700;
+  --weight-black: 800;
 
   /* Cores principais */
   --primary: #2DBA67;
@@ -68,7 +69,7 @@ html,
 body {
   width: 100%;
   height: 100%;
-  overflow-x: hidden;
+  overflow: hidden;
   background: #0D0E12;
   color: var(--text-primary);
   font-family: var(--font-family);
@@ -106,79 +107,142 @@ body {
 }
 
 /* =============================================
-   TELA INICIAL (SPLASH)
+   TELA INICIAL — SPLASH REDESENHADA
+   Layout assimétrico com identidade de transporte urbano
    ============================================= */
-/* =============================================
-   TELA INICIAL — SPLASH REDESENHADO
-   ============================================= */
+
 .start {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  justify-content: flex-end;
+  align-items: stretch;
   background: var(--bg-app);
-  background-image:
-    radial-gradient(ellipse 80% 50% at 50% 0%, rgba(45, 186, 103, 0.08) 0%, transparent 70%);
+  overflow: hidden;
 }
 
-.center {
+/* Área visual superior — ocupa ~55% da tela */
+.splash-visual {
+  flex: 1;
+  position: relative;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  gap: 20px;
-  padding: 32px 28px;
-  width: 100%;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 52px 28px 0;
+  overflow: hidden;
 }
 
-/* Anel de pulsação ao redor do ícone */
+/* Grade de pontos de fundo — referência visual de mapa */
+.splash-visual::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle, rgba(45, 186, 103, 0.12) 1px, transparent 1px);
+  background-size: 28px 28px;
+  mask-image: radial-gradient(ellipse 90% 80% at 30% 40%, black 30%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 90% 80% at 30% 40%, black 30%, transparent 100%);
+}
+
+
+/* Linha de rota SVG animada — decorativa */
+.splash-route {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 70%;
+  height: 100%;
+  opacity: 0.18;
+  pointer-events: none;
+}
+
+/* Ícone do ônibus — posicionado à esquerda, não centralizado */
 .bus-icon {
   position: relative;
-  width: 80px;
-  height: 80px;
-  background: var(--primary-glow);
-  border-radius: 24px;
+  width: 72px;
+  height: 72px;
+  border-radius: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid rgba(45, 186, 103, 0.35);
-  box-shadow: 0 0 0 0 rgba(45, 186, 103, 0.3);
-  animation: icon-breathe 3s ease-in-out infinite;
+  border: 1px solid rgba(45, 186, 103, 0.3);
+  flex-shrink: 0;
+  z-index: 1;
 }
 
+/* Pulsação suave — mantida pois indica app ativo */
 @keyframes icon-breathe {
 
   0%,
   100% {
-    box-shadow: 0 0 0 0 rgba(45, 186, 103, 0.3);
+    box-shadow: 0 0 0 0 rgba(45, 186, 103, 0.25);
   }
 
   50% {
-    box-shadow: 0 0 0 12px rgba(45, 186, 103, 0);
+    box-shadow: 0 0 0 10px rgba(45, 186, 103, 0);
   }
 }
 
+
 .bus-icon img {
-  width: 42px;
+  width: 38px;
 }
 
-.center h1 {
-  font-size: var(--font-xxl);
-  font-weight: var(--weight-bold);
-  letter-spacing: -0.5px;
-  line-height: 1.2;
+/* Bloco de texto principal — alinhado à esquerda */
+.splash-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 0 28px 32px;
+  z-index: 1;
+}
+
+.splash-eyebrow {
+  font-size: var(--font-xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--primary);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+
+.splash-content h1 {
+  font-size: 36px;
+  font-weight: var(--weight-black);
+  letter-spacing: -1.2px;
+  line-height: 1.05;
   color: var(--text-primary);
-  margin-top: 4px;
+  margin-bottom: 10px;
+}
+
+.splash-content h1 span {
+  color: var(--primary);
 }
 
 /* Subtítulo exclusivo da splash */
 .splash-sub {
   font-size: var(--font-sm);
-  font-weight: var(--weight-medium);
+  font-weight: var(--weight-regular);
   color: var(--text-secondary);
-  letter-spacing: 0.2px;
-  line-height: 1.5;
+  letter-spacing: 0.1px;
+  line-height: 1.6;
+  max-width: 260px;
+}
+
+/* Área inferior — CTA */
+.splash-cta {
+  padding: 24px 28px calc(env(safe-area-inset-bottom, 0px) + 32px);
+  border-top: 1px solid var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: var(--bg-app);
+  position: relative;
+  z-index: 2;
 }
 
 /* Chip de status ao vivo */
@@ -188,14 +252,11 @@ body {
   gap: 6px;
   font-size: var(--font-xs);
   font-weight: var(--weight-semibold);
-  font-family: var(--font-family);
-  letter-spacing: 0.5px;
+  letter-spacing: 1px;
   text-transform: uppercase;
   color: var(--primary);
-  background: var(--primary-glow);
-  border: 1px solid rgba(45, 186, 103, 0.25);
-  border-radius: var(--radius-full);
-  padding: 5px 12px;
+  margin-bottom: 4px;
+  width: fit-content;
 }
 
 .splash-live .dot {
@@ -206,97 +267,60 @@ body {
   animation: pulse-dot 1.8s ease-in-out infinite;
 }
 
-/* ---- Bloco do botão CTA ---- */
-.splash-cta {
-  padding: 24px 20px calc(env(safe-area-inset-bottom, 0px) + 28px);
-  border-top: 1px solid var(--border-subtle);
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-/* Botão principal largo */
+/* Botão principal — sem shimmer, com identidade */
 .enter {
   position: relative;
   width: 100%;
-  max-width: 280px;
-  min-height: 54px;
+  min-height: 56px;
   border: none;
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-md);
   background: var(--primary);
   color: #fff;
   font-family: var(--font-family);
   font-size: var(--font-md);
-  font-weight: var(--weight-semibold);
-  letter-spacing: -0.1px;
+  font-weight: var(--weight-bold);
+  letter-spacing: 0.2px;
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 10px;
+  justify-content: space-between;
+  padding: 0 20px 0 24px;
   cursor: pointer;
-  overflow: hidden;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+  transition: background 0.2s, box-shadow 0.2s, transform 0.15s;
 }
 
-/* Efeito de brilho (shimmer) passando */
-.enter::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(105deg,
-      transparent 40%,
-      rgba(255, 255, 255, 0.18) 50%,
-      transparent 60%);
-  background-size: 200% 100%;
-  background-position: -100% 0;
-  animation: shimmer 3.5s ease-in-out infinite;
-}
-
-@keyframes shimmer {
-  0% {
-    background-position: -100% 0;
-  }
-
-  40%,
-  100% {
-    background-position: 200% 0;
-  }
-}
-
-.enter-icon {
-  width: 20px;
-  height: 20px;
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 50%;
+/* Seta de ação */
+.enter-arrow {
+  width: 46px;
+  height: 46px;
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 12px;
-  flex-shrink: 0;
-  transition: transform 0.25s;
+  font-size: 18px;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .enter:hover {
   background: var(--primary-dark);
-  box-shadow: 0 3px 14px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 6px 24px rgba(45, 186, 103, 0.3);
 }
 
-.enter:hover .enter-icon {
-  transform: translateX(3px);
+.enter:hover .enter-arrow {
+  transform: translateX(4px);
 }
 
+/* Active: pressão física, não zoom */
 .enter:active {
-  transform: scale(0.98);
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+  transform: translateY(2px);
+  box-shadow: 0 2px 8px rgba(45, 186, 103, 0.2);
 }
 
 .splash-note {
   text-align: center;
   font-size: var(--font-xs);
-  font-weight: var(--weight-medium);
+  font-weight: var(--weight-regular);
   color: var(--text-muted);
-  letter-spacing: 0.2px;
+  letter-spacing: 0.3px;
 }
 
 /* =============================================
@@ -347,7 +371,6 @@ body {
   border-radius: 50%;
   background: currentColor;
   flex-shrink: 0;
-  animation: pulse-dot 2s infinite;
 }
 
 @keyframes pulse-dot {
@@ -382,6 +405,26 @@ body {
   font-weight: var(--weight-bold);
   letter-spacing: 0.4px;
   text-transform: uppercase;
+  transition: background 0.4s;
+}
+
+/* Quando ônibus está chegando — animação de urgência */
+.bus-status--arriving {
+  animation: arriving-pulse 1.2s ease-in-out infinite;
+}
+
+@keyframes arriving-pulse {
+
+  0%,
+  100% {
+    background: var(--primary);
+    box-shadow: 0 0 0 0 rgba(45, 186, 103, 0.4);
+  }
+
+  50% {
+    background: var(--primary-dark);
+    box-shadow: 0 0 0 6px rgba(45, 186, 103, 0);
+  }
 }
 
 /* =============================================
@@ -395,6 +438,8 @@ body {
   border-radius: var(--radius-lg);
   border: 1px solid var(--border-card);
   background: var(--bg-card);
+  overflow: hidden;
+  /* Garante que o conteúdo extra do mapa seja cortado */
 }
 
 /* =============================================
@@ -481,7 +526,7 @@ body {
 }
 
 .toggle-btn:active {
-  transform: scale(0.98);
+  transform: translateY(1px);
 }
 
 .list ul {
@@ -516,14 +561,16 @@ body {
   align-items: center;
   padding: 14px 16px;
   border-bottom: 1px solid var(--border-subtle);
+  border-left: 3px solid transparent;
   font-size: var(--font-md);
   font-weight: var(--weight-regular);
   color: var(--text-primary);
-  transition: background 0.15s;
+  transition: background 0.15s, border-left-color 0.2s;
 }
 
 .list li:hover {
   background: rgba(255, 255, 255, 0.03);
+  border-left-color: var(--primary);
 }
 
 .list li:last-child {
@@ -586,7 +633,7 @@ body {
 }
 
 .back-btn:active {
-  transform: scale(0.95);
+  transform: translateY(1px);
 }
 
 /* =============================================
@@ -714,32 +761,36 @@ body {
   gap: 14px;
   background: var(--bg-card);
   border: 1px solid var(--border-card);
+  border-left: 3px solid transparent;
   border-radius: var(--radius-md);
   padding: 10px 10px;
   cursor: pointer;
   text-align: left;
-  transition: background 0.15s, border-color 0.15s, transform 0.1s;
+  transition: background 0.15s, border-color 0.15s, border-left-color 0.2s, transform 0.1s;
   min-height: 68px;
 }
 
 .line-card:hover {
   background: var(--bg-card-2);
   border-color: rgba(255, 255, 255, 0.09);
+  border-left-color: var(--primary);
 }
 
 .line-card:active {
-  transform: scale(0.985);
+  transform: translateX(-2px);
 }
 
 /* Featured UFLA card */
 .line-card--featured {
   border-color: rgba(45, 186, 103, 0.3);
+  border-left-color: var(--primary);
   background: rgba(45, 186, 103, 0.05);
 }
 
 .line-card--featured:hover {
   background: rgba(45, 186, 103, 0.09);
   border-color: rgba(45, 186, 103, 0.45);
+  border-left-color: var(--primary);
 }
 
 /* Badge */
@@ -906,5 +957,5 @@ body {
 }
 
 .unavailable-back:active {
-  transform: scale(0.97);
+  transform: translateY(1px);
 }

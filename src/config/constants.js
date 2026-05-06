@@ -36,5 +36,13 @@ export const APP_CONFIG = {
   DEFAULT_CENTER: {
     lat: -20.899853,
     lng: -46.987238
+  },
+
+  // Configurações do ThingsBoard
+  THINGSBOARD: {
+    HOST: 'https://demo.thingsboard.io', // Ou o IP do seu servidor
+    DEVICE_ID: 'SEU_DEVICE_ID_AQUI',
+    ACCESS_TOKEN: 'SEU_ACCESS_TOKEN_AQUI',
+    POLLING_INTERVAL_MS: 5000 // Frequência de atualização (5 segundos)
   }
 };

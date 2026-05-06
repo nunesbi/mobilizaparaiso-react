@@ -300,14 +300,6 @@ body {
   transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-.enter:hover {
-  background: var(--primary-dark);
-  box-shadow: 0 6px 24px rgba(45, 186, 103, 0.3);
-}
-
-.enter:hover .enter-arrow {
-  transform: translateX(4px);
-}
 
 /* Active: pressão física, não zoom */
 .enter:active {
@@ -408,24 +400,6 @@ body {
   transition: background 0.4s;
 }
 
-/* Quando ônibus está chegando — animação de urgência */
-.bus-status--arriving {
-  animation: arriving-pulse 1.2s ease-in-out infinite;
-}
-
-@keyframes arriving-pulse {
-
-  0%,
-  100% {
-    background: var(--primary);
-    box-shadow: 0 0 0 0 rgba(45, 186, 103, 0.4);
-  }
-
-  50% {
-    background: var(--primary-dark);
-    box-shadow: 0 0 0 6px rgba(45, 186, 103, 0);
-  }
-}
 
 /* =============================================
    MAPA (IFRAME)

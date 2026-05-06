@@ -113,18 +113,17 @@ export default function MapScreen({ isActive, setScreen, showList, setShowList, 
         {(() => {
           const minutesMatch = eta.match(/\d+/);
           const minutes = minutesMatch ? parseInt(minutesMatch[0], 10) : 99;
-          const isArriving = !eta.includes('hora') && minutes <= 3;
           const statusText = eta.includes('hora')
             ? "Ônibus em rota, prepare seu embarque"
             : minutes <= 3
-            ? "🚌 Ônibus chegando!"
-            : minutes <= 8
-            ? "O ônibus está se aproximando!"
-            : "Ônibus em rota, prepare seu embarque";
-
+              ? "Ônibus chegando!"
+              : minutes <= 8
+                ? "O ônibus está se aproximando!"
+                : "Ônibus em rota, prepare seu embarque";
+          
           return (
             <div
-              className={`bus-status${isArriving ? ' bus-status--arriving' : ''}`}
+              className="bus-status"
               role="status"
               aria-live="polite"
             >

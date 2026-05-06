@@ -7,12 +7,12 @@
 :root {
   /* Tipografia */
   --font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --font-xs: 11px;
-  --font-sm: 13px;
-  --font-md: 15px;
-  --font-lg: 17px;
-  --font-xl: 22px;
-  --font-xxl: 28px;
+  --font-xs: 14px;
+  --font-sm: 16px;
+  --font-md: 18px;
+  --font-lg: 20px;
+  --font-xl: 24px;
+  --font-xxl: 32px;
 
   /* Pesos — Open Sans: 300 light, 400 regular, 600 semibold, 700 bold, 800 extrabold */
   --weight-light: 300;
@@ -384,20 +384,24 @@ body {
 }
 
 /* =============================================
-   BUS STATUS BAR
+   ETA BANNER (Novo Destaque)
    ============================================= */
-.bus-status {
+.eta-banner {
+  background: var(--bg-card);
+  border: 2px solid var(--primary);
+  color: var(--text-primary);
+  text-align: center;
+  padding: 16px 20px;
+  margin: 16px 16px 16px;
+  border-radius: var(--radius-lg);
+  font-size: 24px;
+  font-weight: var(--weight-bold);
+}
+
+.eta-banner--arriving {
   background: var(--primary);
   color: #fff;
-  text-align: center;
-  padding: 11px 16px;
-  margin: 12px 16px;
-  border-radius: var(--radius-md);
-  font-size: var(--font-sm);
-  font-weight: var(--weight-bold);
-  letter-spacing: 0.4px;
-  text-transform: uppercase;
-  transition: background 0.4s;
+  border-color: var(--primary);
 }
 
 

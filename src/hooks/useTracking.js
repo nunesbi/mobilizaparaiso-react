@@ -9,38 +9,75 @@ export function useTracking() {
   const [busLocation, setBusLocation] = useState(MOCK_BUS_ROUTE[0]);
   const [userLocation, setUserLocation] = useState(null);
   const [currentTime, setCurrentTime] = useState('--:--');
+  const [logs, setLogs] = useState([]);
+
+  const addLog = (message) => {
+    setLogs(prev => {
+      const newLog = `[${new Date().toLocaleTimeString('pt-BR')}] ${message}`;
+      return [newLog, ...prev].slice(0, 15); // Mantém apenas os últimos 15 logs
+    });
+  };
 
   useEffect(() => {
     let routeIndex = 0;
     let intervalId;
     
+    let tbToken = null;
+
     // Função para buscar dados reais do ThingsBoard
     const fetchRealLocation = async () => {
       try {
-        const { HOST, DEVICE_ID, ACCESS_TOKEN } = APP_CONFIG.THINGSBOARD;
+        const { HOST, DEVICE_ID, USERNAME, PASSWORD } = APP_CONFIG.THINGSBOARD;
         
-        // Endpoint padrão do ThingsBoard para pegar as últimas telemetrias
+        // Passo 1: Login para pegar o Token (se ainda não tiver)
+        if (!tbToken) {
+          addLog("Iniciando Autenticação...");
+          const loginResponse = await fetch(`${HOST}/api/auth/login`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username: USERNAME, password: PASSWORD })
+          });
+
+          if (!loginResponse.ok) throw new Error("Falha no login");
+          const loginData = await loginResponse.json();
+          tbToken = loginData.token;
+          addLog("Login Realizado com sucesso.");
+        }
+        
+        // Passo 2: Puxar a telemetria do Dispositivo usando o Token
         const url = `${HOST}/api/plugins/telemetry/DEVICE/${DEVICE_ID}/values/timeseries?keys=latitude,longitude`;
         
         const response = await fetch(url, {
+          method: 'GET',
           headers: {
-            'X-Authorization': `Bearer ${ACCESS_TOKEN}` // Ou JWT token se necessário
+            'X-Authorization': `Bearer ${tbToken}`
           }
         });
 
-        if (!response.ok) throw new Error('Falha ao buscar coordenadas');
+        // Se o token expirou (401), limpa para forçar login na próxima execução
+        if (response.status === 401) {
+          tbToken = null;
+          throw new Error('Token expirado.');
+        }
+
+        if (!response.ok) throw new Error('Falha HTTP na telemetria');
 
         const data = await response.json();
 
+        // Extrai os valores numéricos
         if (data.latitude && data.longitude) {
-          const newLoc = {
-            lat: parseFloat(data.latitude[0].value),
-            lng: parseFloat(data.longitude[0].value)
-          };
+          const lat = parseFloat(data.latitude[0].value);
+          const lng = parseFloat(data.longitude[0].value);
+          const newLoc = { lat, lng };
+          
           setBusLocation(newLoc);
           setCurrentTime(new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }));
+          addLog(`Coords recebidas: ${lat.toFixed(5)}, ${lng.toFixed(5)}`);
+        } else {
+           addLog("Sem telemetria recente.");
         }
       } catch (error) {
+        addLog(`Erro: ${error.message}`);
         console.error("Erro na API ThingsBoard:", error);
       }
     };
@@ -76,5 +113,5 @@ export function useTracking() {
     };
   }, []);
 
-  return { busLocation, userLocation, currentTime };
+  return { busLocation, userLocation, currentTime, logs };
 }

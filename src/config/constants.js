@@ -40,9 +40,10 @@ export const APP_CONFIG = {
 
   // Configurações do ThingsBoard
   THINGSBOARD: {
-    HOST: 'https://demo.thingsboard.io', // Ou o IP do seu servidor
-    DEVICE_ID: 'SEU_DEVICE_ID_AQUI',
-    ACCESS_TOKEN: 'SEU_ACCESS_TOKEN_AQUI',
-    POLLING_INTERVAL_MS: 5000 // Frequência de atualização (5 segundos)
+    HOST: 'https://thingsboard.cloud',
+    USERNAME: 'rafael.alves8@estudante.ufla.br',
+    PASSWORD: 'Teste1234#',
+    DEVICE_ID: '18239c60-2249-11f1-afd7-eb430bfb427f',
+    POLLING_INTERVAL_MS: 10000 // Frequência de atualização (10 segundos)
   }
 };

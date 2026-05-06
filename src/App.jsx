@@ -16,7 +16,7 @@ export default function App() {
   const [search, setSearch] = useState('')
   const [showList, setShowList] = useState(false)
   
-  const { busLocation, userLocation, currentTime } = useTracking()
+  const { busLocation, userLocation, currentTime, logs } = useTracking()
 
   const filteredLines = LINES.filter(line => {
     const q = search.toLowerCase()
@@ -63,6 +63,13 @@ export default function App() {
         setScreen={setScreen}
         selectedLine={selectedLine}
       />
+
+      <div className="debug-log-panel">
+        <h4>Logs de Conexão</h4>
+        {logs.map((log, index) => (
+          <div key={index} className="log-entry">{log}</div>
+        ))}
+      </div>
     </>
   )
 }

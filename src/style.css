@@ -937,3 +937,46 @@ body {
 .unavailable-back:active {
   transform: translateY(1px);
 }
+
+/* =========================================
+   DEBUG LOG PANEL
+   ========================================= */
+.debug-log-panel {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 300px;
+  max-height: 80vh;
+  background-color: rgba(0, 0, 0, 0.85);
+  color: #00ff00;
+  font-family: monospace;
+  font-size: 11px;
+  padding: 15px;
+  border-radius: 8px;
+  z-index: 9999;
+  overflow-y: auto;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  backdrop-filter: blur(4px);
+  /* Esconder em telas pequenas, já que é para PC */
+}
+
+@media (max-width: 768px) {
+  .debug-log-panel {
+    display: none;
+  }
+}
+
+.debug-log-panel h4 {
+  margin: 0 0 10px 0;
+  color: #fff;
+  font-size: 14px;
+  text-transform: uppercase;
+  border-bottom: 1px solid #444;
+  padding-bottom: 5px;
+}
+
+.log-entry {
+  margin-bottom: 4px;
+  line-height: 1.3;
+  word-break: break-all;
+}

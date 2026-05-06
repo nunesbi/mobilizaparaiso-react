@@ -1,55 +1,22 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import './style.css'
 
 import { LINES } from './data/lines'
-import { MOCK_BUS_ROUTE, ENABLE_MOCK_BUS } from './data/mockData'
+import { useTracking } from './hooks/useTracking'
+
 import SplashScreen from './screens/SplashScreen'
 import SelectionScreen from './screens/SelectionScreen'
 import MapScreen from './screens/MapScreen'
 import UnavailableScreen from './screens/UnavailableScreen'
 
 export default function App() {
-  const [screen, setScreen] = useState('splash')   // splash | selection | map | unavailable
-  const [search, setSearch] = useState('')
+  const [screen, setScreen] = useState('splash') // splash | selection | map | unavailable
   const [selectedLine, setSelectedLine] = useState(null)
-  const [showList, setShowList] = useState(false)
-  const [time, setTime] = useState('--:--')
   
-  const [busLocation, setBusLocation] = useState(MOCK_BUS_ROUTE[0])
-  const [userLocation, setUserLocation] = useState(null)
-
-  useEffect(() => {
-    let routeIndex = 0;
-    let i;
-    
-    if (ENABLE_MOCK_BUS) {
-      i = setInterval(() => {
-        routeIndex = (routeIndex + 1) % MOCK_BUS_ROUTE.length;
-        setBusLocation(MOCK_BUS_ROUTE[routeIndex]);
-        setTime(new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }));
-      }, 3000);
-    } else {
-      // Para uso futuro com dados reais:
-      // Pode substituir por um fetch para a API do ThingsBoard
-      setBusLocation(MOCK_BUS_ROUTE[0]); // Mantém um local fixo se o simulador estiver desligado
-    }
-
-    let watchId;
-    if ('geolocation' in navigator) {
-      watchId = navigator.geolocation.watchPosition((pos) => {
-        setUserLocation({ lat: pos.coords.latitude, lng: pos.coords.longitude });
-      }, (err) => {
-        console.error("Erro ao obter geolocalização:", err);
-      }, { enableHighAccuracy: true });
-    }
-
-    return () => {
-      clearInterval(i)
-      if (watchId !== undefined && 'geolocation' in navigator) {
-        navigator.geolocation.clearWatch(watchId);
-      }
-    }
-  }, [])
+  const [search, setSearch] = useState('')
+  const [showList, setShowList] = useState(false)
+  
+  const { busLocation, userLocation, currentTime } = useTracking()
 
   const filteredLines = LINES.filter(line => {
     const q = search.toLowerCase()
@@ -63,11 +30,7 @@ export default function App() {
   const handleLineSelect = (line) => {
     setSelectedLine(line)
     setShowList(false)
-    if (line.active) {
-      setScreen('map')
-    } else {
-      setScreen('unavailable')
-    }
+    setScreen(line.active ? 'map' : 'unavailable')
   }
 
   return (
@@ -90,7 +53,7 @@ export default function App() {
         setScreen={setScreen}
         showList={showList}
         setShowList={setShowList}
-        time={time}
+        time={currentTime}
         busLocation={busLocation}
         userLocation={userLocation}
       />

@@ -127,7 +127,7 @@ body {
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
-  padding: 52px 28px 0;
+  padding: calc(env(safe-area-inset-top, 0px) + 52px) 28px 0;
   overflow: hidden;
 }
 
@@ -322,7 +322,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 18px 16px 14px;
+  padding: calc(env(safe-area-inset-top, 0px) + 18px) 16px 14px;
   border-bottom: 1px solid var(--border-subtle);
 }
 

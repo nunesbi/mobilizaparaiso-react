@@ -16,6 +16,7 @@ O **Mobiliza Paraíso** foi projetado para oferecer aos cidadãos de São Sebast
 * ⏱️ **Cálculo de ETA Real:** Utiliza a Directions API do Google para calcular o tempo estimado de chegada (com mecanismo de _throttling_ para otimização de custos).
 * 🔄 **Modos de Operação:** Suporta tanto simulação de rotas offline quanto integração real (ThingsBoard via API).
 * ☕ **Custom Splash Screen:** Tela de carregamento customizada e baseada no logotipo oficial durante inicializações frias.
+* 📢 **Notificações no Telegram:** Envia alertas automaticamente para um grupo do Telegram sempre que o ônibus chega a um ponto.
 
 ---
 
@@ -34,6 +35,8 @@ Antes de começar, crie um arquivo `.env` na raiz do projeto com a chave do Goog
 
 ```env
 VITE_GOOGLE_MAPS_API_KEY=sua_chave_aqui
+VITE_TELEGRAM_BOT_TOKEN=seu_bot_token_aqui
+VITE_TELEGRAM_CHAT_ID=seu_chat_id_aqui
 ```
 
 Para rodar os apps nativos você precisará de:

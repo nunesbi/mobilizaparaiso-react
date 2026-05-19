@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { useJsApiLoader, GoogleMap, Marker, DirectionsRenderer } from '@react-google-maps/api';
 import { MOCK_STOPS } from '../data/mockData';
 import { getDistance } from '../utils/geo';
+import { sendTelegramMessage } from '../utils/telegram';
 import { APP_CONFIG } from '../config/constants';
 
 const containerStyle = {
@@ -39,10 +40,12 @@ export default function MapScreen({
 
     // Lógica de reinício específica para o comportamento do simulador
     if (currentStopIndex === MOCK_STOPS.length - 1 && distToFirst < APP_CONFIG.DISTANCIA_REINICIO_ROTA) {
+      sendTelegramMessage(`O ônibus chegou no ponto inicial/final: ${MOCK_STOPS[0].name}`);
       setCurrentStopIndex(0);
     }
     // Avança para o próximo ponto quando o ônibus entra no raio de proximidade
     else if (distToNext < APP_CONFIG.DISTANCIA_PROXIMIDADE_PONTO && currentStopIndex < MOCK_STOPS.length - 1) {
+      sendTelegramMessage(`O ônibus chegou no ponto: ${nextStop.name}`);
       setCurrentStopIndex(prev => prev + 1);
     }
   }, [busLocation, currentStopIndex, nextStop]);
